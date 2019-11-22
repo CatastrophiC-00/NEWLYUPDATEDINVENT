@@ -14,3 +14,4 @@
 
 Route::get('/','InventoryController@index');
 Route::post('/Inventory','InventoryController@store');
+Route::post('/Inventory/{inventory}/delete','InventoryController@delete);

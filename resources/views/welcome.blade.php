@@ -29,8 +29,21 @@
   <tbody>
     <tr v-for="inventory in inventories">
       <td>
-
+        @{{ inventory.id }}
       </td>
+      <td>
+        @{{ inventory.name }}
+      </td>
+      <td>
+        @{{ inventory.quantity }}
+      </td>
+      <td>
+        @{{ inventory.category }}
+      </td>
+      <td>
+        <button>Edit</button> / <button v-on:click='deleteTask(inventory)'>Delete</button>
+      </td>
+
     </tr>
   </tbody>
   </table>
@@ -51,7 +64,7 @@
       <label>Quantity:</label>
       <input type="number" class='form-control' v-model='new_item.quantity'name="quantity">
       <label>Category:</label>
-      <select class='form-control' v-model='new_item.categry' name="categry">
+      <select class='form-control' v-model='new_item.category' name="categry">
         <option value="Utensil">Utensil</option>
         <option value="Equipment">Equipment</option>
       </select>
@@ -92,8 +105,16 @@ var vm = new Vue({
               this.new_item.category = '';
               console.log(data);
             });
+      },
+    
+      deleteTask(inventory) {
+          axios.post('/Inventory/'+inventory.id+'/delete')
+            .then(function(response){
+              var index = vm.inventory.indexOf(inventory);
+              vm.inventory.splice(index, 1);
+            });
+        }
       }
-    }
 })
 </script>
 </html>
