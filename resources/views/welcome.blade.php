@@ -41,7 +41,7 @@
         @{{ inventory.category }}
       </td>
       <td>
-        <button>Edit</button> / <button v-on:click='deleteTask(inventory)'>Delete</button>
+        <button class = "btn btn-primary" v-on:click='editInventory(inventory)'>Edit</button> / <button class = "btn btn-primary" v-on:click='deleteInventory(inventory)'>Delete</button>
       </td>
 
     </tr>
@@ -106,14 +106,24 @@ var vm = new Vue({
               console.log(data);
             });
       },
-    
-      deleteTask(inventory) {
+      deleteInventory(inventory) {
           axios.post('/Inventory/'+inventory.id+'/delete')
             .then(function(response){
-              var index = vm.inventory.indexOf(inventory);
-              vm.inventory.splice(index, 1);
+              var index = vm.inventories.indexOf(inventory);
+              vm.inventories.splice(index, 1);
+            });
+        },
+        editInventory(inventory) {
+          axios.post('/Inventory/'+inventory.id+'/edit')
+            .then(({data})=>{
+              this.new_item.name = vm.name ;
+              this.new_item.category = vm.category;
+              this.new_item.quantity = vm.quantity;
+              this.inventories.push(data);
+              console.log(data);
             });
         }
+
       }
 })
 </script>
